@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matilda - My Orders</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { serif: ['Playfair Display', 'serif'], sans: ['Montserrat', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-[#FDFBF7] text-[#0f172a] font-sans min-h-screen">
+    <div id="app" class="max-w-4xl mx-auto p-6 md:p-12 pt-12">
+        
+        <header class="mb-12 border-b border-gray-200 pb-6 flex justify-between items-end">
+            <div>
+                <h1 class="font-serif text-3xl font-bold tracking-wide">My Orders</h1>
+            </div>
+            <a href="#" class="text-[0.65rem] uppercase tracking-widest text-gray-500 hover:text-black transition-colors">Sign Out</a>
+        </header>
+
+        <div class="space-y-10">
+            <div v-for="order in orders" :key="order.id" class="bg-white border border-gray-200 p-6 md:p-8">
+                
+                <!-- Order Header Info -->
+                <div class="flex flex-col md:flex-row justify-between mb-8 gap-4 border-b border-gray-100 pb-6">
+                    <div>
+                        <span class="text-[0.65rem] uppercase tracking-widest text-gray-400 block mb-1">Order Number</span>
+                        <span class="font-bold text-sm">{{ order.id }}</span>
+                    </div>
+                    <div>
+                        <span class="text-[0.65rem] uppercase tracking-widest text-gray-400 block mb-1">Date</span>
+                        <span class="font-medium text-sm">{{ order.created_at }}</span>
+                    </div>
+                    <div class="md:text-end">
+                        <span class="text-[0.65rem] uppercase tracking-widest text-gray-400 block mb-1">Total Amount</span>
+                        <span class="font-bold text-sm">AED {{ order.total_amount_aed }}</span>
+                    </div>
+                </div>
+
+                <!-- 3-Step Visual Status Tracker -->
+                <div class="relative w-full max-w-lg mx-auto my-8">
+                    <!-- Background Line -->
+                    <div class="absolute top-2 start-0 w-full h-[1px] bg-gray-200 z-0"></div>
+                    <!-- Active Progress Line -->
+                    <div class="absolute top-2 start-0 h-[1px] bg-black z-0 transition-all duration-500" :style="{ width: getProgress(order.shipping_status) }"></div>
+                    
+                    <div class="relative z-10 flex justify-between items-center w-full">
+                        <div v-for="(step, index) in ['Processing', 'Shipped', 'Delivered']" :key="step" class="flex flex-col items-center gap-3 bg-white px-2">
+                            <div :class="['w-4 h-4 rounded-full border transition-colors', isStepActive(order.shipping_status, index) ? 'bg-black border-black' : 'bg-white border-gray-300']"></div>
+                            <span :class="['text-[0.6rem] uppercase tracking-widest font-bold', isStepActive(order.shipping_status, index) ? 'text-black' : 'text-gray-400']">{{ step }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- OTO Tracking Details -->
+                <div v-if="order.oto_tracking_number" class="mt-8 pt-6 border-t border-gray-100 flex items-center justify-between">
+                    <div>
+                        <span class="text-[0.65rem] uppercase tracking-widest text-gray-500 block mb-1">OTO Courier Tracking</span>
+                        <span class="font-bold text-sm tracking-wide">{{ order.oto_tracking_number }}</span>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const { createApp } = Vue;
+        createApp({
+            data() {
+                return {
+                    orders: [
+                        {
+                            id: 'MTD-102',
+                            total_amount_aed: 1250.00,
+                            created_at: '2026-09-22',
+                            shipping_status: 'Shipped',
+                            oto_tracking_number: 'OTO-AE-88990011'
+                        },
+                        {
+                            id: 'MTD-098',
+                            total_amount_aed: 450.00,
+                            created_at: '2026-09-15',
+                            shipping_status: 'Delivered',
+                            oto_tracking_number: 'OTO-AE-55443322'
+                        },
+                        {
+                            id: 'MTD-105',
+                            total_amount_aed: 360.00,
+                            created_at: '2026-09-26',
+                            shipping_status: 'Processing',
+                            oto_tracking_number: null
+                        }
+                    ]
+                }
+            },
+            methods: {
+                isStepActive(status, stepIndex) {
+                    const statuses = ['Processing', 'Shipped', 'Delivered'];
+                    const currentIdx = statuses.indexOf(status);
+                    return currentIdx >= stepIndex;
+                },
+                getProgress(status) {
+                    if (status === 'Delivered') return '100%';
+                    if (status === 'Shipped') return '50%';
+                    return '0%';
+                }
+            }
+        }).mount('#app')
+    </script>
+</body>
+</html>
