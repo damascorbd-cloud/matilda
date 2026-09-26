@@ -131,7 +131,6 @@
                     <!-- Fully Clickable Product Card Wrapper -->
                     <a v-for="product in products" :key="product.id" @click.prevent="openQuickView(product)" :href="'product-detail.html?id=' + product.id" class="block group cursor-pointer flex flex-col">
                         <div class="relative w-full aspect-[4/5] md:aspect-[3/4] bg-gray-100 overflow-hidden">
-                            <!-- Updated: Bound to image_url -->
                             <img class="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105" :src="product.image_url" :alt="product.name" />
                             
                             <div class="hidden md:flex absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity items-center justify-center">
@@ -142,7 +141,6 @@
                             <div class="flex flex-col text-left pr-1">
                                 <span class="font-sans font-bold text-[10px] md:text-xs uppercase tracking-[0.15em] md:tracking-[0.2em] text-navy mb-1">{{ product.brand }}</span>
                                 <span class="font-sans font-light text-xs md:text-sm text-gray-700 mb-1.5 line-clamp-2 text-wrap leading-snug">{{ product.name }}</span>
-                                <!-- Updated: Bound to price_aed -->
                                 <span class="font-sans font-medium text-xs md:text-sm text-navy">AED {{ product.price_aed }}</span>
                             </div>
                             <button class="p-1.5 md:p-2 text-navy hover:text-blue-900 transition-colors flex-shrink-0" aria-label="Add to cart">
@@ -190,7 +188,6 @@
 
                 <!-- Left Column: Image Carousel -->
                 <div class="w-full md:w-1/2 h-[45vh] md:h-full relative overflow-hidden flex-shrink-0 bg-gray-100 flex items-center justify-center">
-                    <!-- Updated: Bound to activeImage from DB schema -->
                     <img :src="activeImage" :alt="activeProduct.name" class="absolute inset-0 w-full h-full object-cover object-top">
                     
                     <template v-if="activeProduct.gallery && activeProduct.gallery.length > 1">
@@ -206,23 +203,21 @@
                 <!-- Right Column: Product Details & Docked CTA -->
                 <div class="w-full md:w-1/2 flex flex-col h-full text-left">
                     <div class="flex-grow overflow-y-auto p-6 md:p-12 space-y-4">
-                        <span class="font-sans font-bold text-xs uppercase tracking-[0.3em] text-gold">{{ activeProduct.brand }}</span>
-                        <!-- Updated: Bound to DB schema variables -->
+                        <span class="font-sans font-bold text-xs uppercase tracking-[0.3em] text-gold">{{ activeProduct.brand || 'Matilda' }}</span>
                         <h2 class="font-serif text-2xl md:text-3xl font-bold text-navy leading-tight">{{ activeProduct.name }}</h2>
                         <span class="font-sans font-semibold text-xl text-navy">AED {{ activeProduct.price_aed }}</span>
                         
                         <div class="w-full h-[1px] bg-gray-200 my-2"></div>
                         
                         <p class="font-sans text-xs md:text-sm text-gray-600 leading-relaxed font-medium">
-                            {{ activeProduct.description }}
+                            {{ activeProduct.description || 'Elevate your everyday wardrobe with our carefully crafted luxury selections.' }}
                         </p>
 
                         <!-- Size Selector -->
                         <div class="flex flex-col space-y-2 pt-2">
                             <label class="font-sans text-[0.65rem] uppercase tracking-widest font-semibold text-gray-500">Select Size</label>
                             <div class="flex gap-3">
-                                <!-- Updated: Bound to selected_size -->
-                                <button v-for="size in ['S', 'M', 'L', 'XL']" :key="size" @click="selected_size = size" 
+                                <button v-for="size in ['S', 'M', 'L', 'XL']" :key="size" @click="selectSize(size)" 
                                     :class="['w-10 h-10 border text-xs font-semibold uppercase transition-colors', selected_size === size ? 'bg-navy text-white border-navy' : 'border-gray-300 text-navy hover:border-navy']">
                                     {{ size }}
                                 </button>
@@ -232,8 +227,7 @@
 
                     <!-- Docked Call To Action -->
                     <div class="p-6 border-t border-gray-100 flex-shrink-0 bg-[#FDFBF7]">
-                        <!-- Updated: Triggers addToCartFromModal JSON logic -->
-                        <button @click="addToCartFromModal" class="w-full bg-slate-900 text-white py-4 tracking-[0.2em] uppercase text-xs font-bold hover:bg-gold transition-colors duration-300 shadow-lg">
+                        <button @click="addToCart" class="w-full bg-slate-900 text-white py-4 tracking-[0.2em] uppercase text-xs font-bold hover:bg-gold transition-colors duration-300 shadow-lg">
                             ADD TO CART
                         </button>
                     </div>
@@ -245,10 +239,10 @@
     </div>
 
     <!-- ==========================================
-         VUE.JS APP INSTANCE (WITH JSON PAYLOAD BINDING)
+         VUE.JS APP INSTANCE (WITH NODE.JS API CONNECTION)
     =========================================== -->
     <script>
-        const { createApp, ref, onMounted, onUnmounted } = Vue;
+        const { createApp } = Vue;
         
         createApp({
             data() {
@@ -256,13 +250,17 @@
                     isMenuOpen: false,
                     isModalOpen: false,
                     showFloatingNav: false,
-                    activeProduct: {},
+                    activeProduct: {
+                        id: null,
+                        name: '',
+                        price_aed: 0,
+                        image_url: ''
+                    },
                     activeImage: '',
                     activeImageIndex: 0,
-                    selected_size: 'M', // Updated schema variable
+                    selected_size: null, // Required to be null for validation
                     cartCount: 0,
                     
-                    // Updated dummy data matching the DB Schema
                     products: [
                         {
                             id: 1,
@@ -372,10 +370,18 @@
                     this.showFloatingNav = window.scrollY > 500;
                 },
                 openQuickView(product) {
-                    this.activeProduct = product;
+                    this.activeProduct = {
+                        id: product.id,
+                        name: product.name,
+                        price_aed: product.price_aed,
+                        image_url: product.image_url,
+                        description: product.description,
+                        brand: product.brand,
+                        gallery: product.gallery
+                    };
                     this.activeImageIndex = 0;
                     this.activeImage = product.gallery && product.gallery.length > 0 ? product.gallery[0] : product.image_url;
-                    this.selected_size = 'M'; // Default reset size
+                    this.selected_size = null; // Force validation on new product
                     this.isModalOpen = true;
                     document.body.style.overflow = 'hidden';
                 },
@@ -395,9 +401,16 @@
                         this.activeImage = this.activeProduct.gallery[this.activeImageIndex];
                     }
                 },
-                // Updated Logic for Backend API JSON Generation
-                addToCartFromModal() {
-                    const payload = {
+                selectSize(size) {
+                    this.selected_size = size;
+                },
+                addToCart() {
+                    if (!this.selected_size) {
+                        alert('Please select a size before adding to cart.');
+                        return;
+                    }
+                    
+                    const cartPayload = {
                         product_id: this.activeProduct.id,
                         name: this.activeProduct.name,
                         price_aed: this.activeProduct.price_aed,
@@ -405,13 +418,26 @@
                         image_url: this.activeProduct.image_url,
                         quantity: 1
                     };
-                    
-                    // Makikita mo ito sa Console ng Browser
-                    console.log("JSON Payload ready for order_items API:", JSON.stringify(payload, null, 2));
-                    alert("JSON Payload Generated! Check Browser Console.\n\n" + JSON.stringify(payload, null, 2));
-                    
-                    this.cartCount++;
-                    this.closeQuickView();
+
+                    // Connects to the local Node.js backend
+                    fetch('http://localhost:3000/api/cart/add', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(cartPayload)
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log("Success:", data);
+                        alert(data.message || 'Successfully added to cart!'); 
+                        this.cartCount++;
+                        this.closeQuickView();
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error);
+                        alert('Failed to connect to the server.');
+                    });
                 },
                 scrollToTop() {
                     window.scrollTo({
