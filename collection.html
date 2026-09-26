@@ -128,10 +128,12 @@
             <div class="max-w-[1800px] mx-auto">
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 gap-y-12 md:gap-y-16">
                     
-                    <!-- Product Card with Quick View Trigger for ALL Screen Sizes -->
-                    <div v-for="product in products" :key="product.id" @click="openQuickView(product)" class="flex flex-col group cursor-pointer">
+                    <!-- Fully Clickable Product Card Wrapper -->
+                    <a v-for="product in products" :key="product.id" @click.prevent="openQuickView(product)" :href="'product-detail.html?id=' + product.id" class="block group cursor-pointer flex flex-col">
                         <div class="relative w-full aspect-[4/5] md:aspect-[3/4] bg-gray-100 overflow-hidden">
-                            <img class="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105" :src="product.image" :alt="product.name" />
+                            <!-- Updated: Bound to image_url -->
+                            <img class="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105" :src="product.image_url" :alt="product.name" />
+                            
                             <div class="hidden md:flex absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity items-center justify-center">
                                 <span class="bg-[#FDFBF7]/90 text-navy text-[0.6rem] uppercase tracking-[0.2em] font-bold px-4 py-2 shadow-sm">Quick View</span>
                             </div>
@@ -140,13 +142,14 @@
                             <div class="flex flex-col text-left pr-1">
                                 <span class="font-sans font-bold text-[10px] md:text-xs uppercase tracking-[0.15em] md:tracking-[0.2em] text-navy mb-1">{{ product.brand }}</span>
                                 <span class="font-sans font-light text-xs md:text-sm text-gray-700 mb-1.5 line-clamp-2 text-wrap leading-snug">{{ product.name }}</span>
-                                <span class="font-sans font-medium text-xs md:text-sm text-navy">{{ product.price }}</span>
+                                <!-- Updated: Bound to price_aed -->
+                                <span class="font-sans font-medium text-xs md:text-sm text-navy">AED {{ product.price_aed }}</span>
                             </div>
-                            <button @click.stop="addToCart(product)" class="p-1.5 md:p-2 text-navy hover:text-blue-900 transition-colors flex-shrink-0" aria-label="Add to cart">
+                            <button class="p-1.5 md:p-2 text-navy hover:text-blue-900 transition-colors flex-shrink-0" aria-label="Add to cart">
                                 <svg class="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
                             </button>
                         </div>
-                    </div>
+                    </a>
 
                 </div>
 
@@ -175,19 +178,20 @@
         </div>
 
         <!-- ==========================================
-             QUICK VIEW MODAL COMPONENT (REFINED PADDING)
+             QUICK VIEW MODAL COMPONENT
         =========================================== -->
         <div v-if="isModalOpen" class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4 overflow-y-auto">
-            <div @click.stop class="relative w-full max-w-4xl flex flex-col md:flex-row max-h-[90vh] overflow-hidden rounded-none bg-[#FDFBF7] shadow-2xl mx-4 animate-in fade-in duration-300">
+            <div @click.stop class="relative w-full max-w-4xl overflow-y-auto max-h-[90vh] md:max-h-[85vh] flex flex-col md:flex-row rounded-none bg-[#FDFBF7] shadow-2xl mx-4 animate-in fade-in duration-300">
                 
                 <!-- Bulletproof Close 'X' Button -->
                 <button @click="closeQuickView" class="absolute top-4 right-4 z-50 p-2 bg-white rounded-full shadow-md text-slate-900 cursor-pointer hover:bg-slate-100 transition-colors" aria-label="Close Modal">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"></path></svg>
                 </button>
 
-                <!-- Left Column: Image & Carousel -->
-                <div class="w-full md:w-1/2 h-[50vh] md:h-full relative block flex-shrink-0 bg-gray-100 flex items-center justify-center">
-                    <img :src="activeImage" :alt="activeProduct.name" class="absolute inset-0 w-full h-full object-cover object-top" />
+                <!-- Left Column: Image Carousel -->
+                <div class="w-full md:w-1/2 h-[45vh] md:h-full relative overflow-hidden flex-shrink-0 bg-gray-100 flex items-center justify-center">
+                    <!-- Updated: Bound to activeImage from DB schema -->
+                    <img :src="activeImage" :alt="activeProduct.name" class="absolute inset-0 w-full h-full object-cover object-top">
                     
                     <template v-if="activeProduct.gallery && activeProduct.gallery.length > 1">
                         <button @click="prevImage" class="absolute left-3 top-1/2 -translate-y-1/2 z-20 p-2 bg-white/70 hover:bg-white text-slate-900 rounded-full shadow-md transition-colors" aria-label="Previous Image">
@@ -199,12 +203,13 @@
                     </template>
                 </div>
 
-                <!-- Right Column: Product Details (with refined pt-6 md:pt-8 spacing) & Docked CTA -->
-                <div class="w-full md:w-1/2 flex flex-col h-full text-left overflow-y-auto">
-                    <div class="flex-grow pt-6 md:pt-8 p-6 md:p-12 space-y-4">
+                <!-- Right Column: Product Details & Docked CTA -->
+                <div class="w-full md:w-1/2 flex flex-col h-full text-left">
+                    <div class="flex-grow overflow-y-auto p-6 md:p-12 space-y-4">
                         <span class="font-sans font-bold text-xs uppercase tracking-[0.3em] text-gold">{{ activeProduct.brand }}</span>
+                        <!-- Updated: Bound to DB schema variables -->
                         <h2 class="font-serif text-2xl md:text-3xl font-bold text-navy leading-tight">{{ activeProduct.name }}</h2>
-                        <span class="font-sans font-semibold text-xl text-navy">{{ activeProduct.price }}</span>
+                        <span class="font-sans font-semibold text-xl text-navy">AED {{ activeProduct.price_aed }}</span>
                         
                         <div class="w-full h-[1px] bg-gray-200 my-2"></div>
                         
@@ -216,7 +221,9 @@
                         <div class="flex flex-col space-y-2 pt-2">
                             <label class="font-sans text-[0.65rem] uppercase tracking-widest font-semibold text-gray-500">Select Size</label>
                             <div class="flex gap-3">
-                                <button v-for="size in ['S', 'M', 'L', 'XL']" :key="size" @click="selectedSize = size" :class="['w-10 h-10 border text-xs font-semibold uppercase transition-colors', selectedSize === size ? 'bg-navy text-white border-navy' : 'border-gray-300 text-navy hover:border-navy']">
+                                <!-- Updated: Bound to selected_size -->
+                                <button v-for="size in ['S', 'M', 'L', 'XL']" :key="size" @click="selected_size = size" 
+                                    :class="['w-10 h-10 border text-xs font-semibold uppercase transition-colors', selected_size === size ? 'bg-navy text-white border-navy' : 'border-gray-300 text-navy hover:border-navy']">
                                     {{ size }}
                                 </button>
                             </div>
@@ -225,6 +232,7 @@
 
                     <!-- Docked Call To Action -->
                     <div class="p-6 border-t border-gray-100 flex-shrink-0 bg-[#FDFBF7]">
+                        <!-- Updated: Triggers addToCartFromModal JSON logic -->
                         <button @click="addToCartFromModal" class="w-full bg-slate-900 text-white py-4 tracking-[0.2em] uppercase text-xs font-bold hover:bg-gold transition-colors duration-300 shadow-lg">
                             ADD TO CART
                         </button>
@@ -236,8 +244,12 @@
 
     </div>
 
+    <!-- ==========================================
+         VUE.JS APP INSTANCE (WITH JSON PAYLOAD BINDING)
+    =========================================== -->
     <script>
         const { createApp, ref, onMounted, onUnmounted } = Vue;
+        
         createApp({
             data() {
                 return {
@@ -247,16 +259,18 @@
                     activeProduct: {},
                     activeImage: '',
                     activeImageIndex: 0,
-                    selectedSize: 'M',
+                    selected_size: 'M', // Updated schema variable
                     cartCount: 0,
+                    
+                    // Updated dummy data matching the DB Schema
                     products: [
                         {
                             id: 1,
                             brand: 'Matilda',
                             name: 'Pleated Navy Elegance Dress',
-                            price: 'AED 300',
+                            price_aed: 300,
                             description: 'A masterpiece of modern modest tailoring. Features exquisite accordion pleats and a refined silhouette crafted from premium breathable fabric.',
-                            image: 'https://images.unsplash.com/photo-1539008835657-9e8e9680c956?q=80&w=800',
+                            image_url: 'https://images.unsplash.com/photo-1539008835657-9e8e9680c956?q=80&w=800',
                             gallery: [
                                 'https://images.unsplash.com/photo-1539008835657-9e8e9680c956?q=80&w=800',
                                 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=800',
@@ -267,9 +281,9 @@
                             id: 2,
                             brand: 'Matilda',
                             name: 'Beige Modest Gown',
-                            price: 'AED 360',
+                            price_aed: 360,
                             description: 'Designed for high-end occasions. This neutral tone gown combines fluid drapery with minimalist luxury finishes.',
-                            image: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=800',
+                            image_url: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=800',
                             gallery: [
                                 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=800',
                                 'https://images.unsplash.com/photo-1539008835657-9e8e9680c956?q=80&w=800'
@@ -279,9 +293,9 @@
                             id: 3,
                             brand: 'Matilda',
                             name: 'Dark Navy High-Neck Top',
-                            price: 'AED 400',
+                            price_aed: 400,
                             description: 'An architectural piece featuring a structured high collar and subtle fluid lines for everyday luxury wear.',
-                            image: 'https://images.unsplash.com/photo-1550614000-4b95d466f914?q=80&w=800',
+                            image_url: 'https://images.unsplash.com/photo-1550614000-4b95d466f914?q=80&w=800',
                             gallery: [
                                 'https://images.unsplash.com/photo-1550614000-4b95d466f914?q=80&w=800'
                             ]
@@ -290,9 +304,9 @@
                             id: 4,
                             brand: 'Matilda',
                             name: 'Taupe Structured Handbag',
-                            price: 'AED 450',
+                            price_aed: 450,
                             description: 'Handcrafted leather accessory designed to complement contemporary outfits with effortless sophistication.',
-                            image: 'https://images.unsplash.com/photo-1584916201218-f4242ceb4809?q=80&w=800',
+                            image_url: 'https://images.unsplash.com/photo-1584916201218-f4242ceb4809?q=80&w=800',
                             gallery: [
                                 'https://images.unsplash.com/photo-1584916201218-f4242ceb4809?q=80&w=800',
                                 'https://images.unsplash.com/photo-1539008835657-9e8e9680c956?q=80&w=800'
@@ -302,9 +316,9 @@
                             id: 5,
                             brand: 'Matilda',
                             name: 'Pearl Drop Earrings',
-                            price: 'AED 120',
+                            price_aed: 120,
                             description: 'Luminous baroque pearls suspended on custom minimalist gold settings.',
-                            image: 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?q=80&w=800',
+                            image_url: 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?q=80&w=800',
                             gallery: [
                                 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?q=80&w=800'
                             ]
@@ -313,9 +327,9 @@
                             id: 6,
                             brand: 'Matilda',
                             name: 'Signature Fragrance',
-                            price: 'AED 280',
+                            price_aed: 280,
                             description: 'An evocative blend of amber, white florals, and warm musk.',
-                            image: 'https://images.unsplash.com/photo-1594035910387-fea47794261f?q=80&w=800',
+                            image_url: 'https://images.unsplash.com/photo-1594035910387-fea47794261f?q=80&w=800',
                             gallery: [
                                 'https://images.unsplash.com/photo-1594035910387-fea47794261f?q=80&w=800',
                                 'https://images.unsplash.com/photo-1539008835657-9e8e9680c956?q=80&w=800'
@@ -325,9 +339,9 @@
                             id: 7,
                             brand: 'Matilda',
                             name: 'Classic Silk Abaya',
-                            price: 'AED 550',
+                            price_aed: 550,
                             description: 'Pure flowing silk designed with immaculate attention to detail and drape.',
-                            image: 'https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=800',
+                            image_url: 'https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=800',
                             gallery: [
                                 'https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=800'
                             ]
@@ -336,9 +350,9 @@
                             id: 8,
                             brand: 'Matilda',
                             name: 'Ivory Modest Tunic',
-                            price: 'AED 290',
+                            price_aed: 290,
                             description: 'Crisp ivory tunic featuring clean lines and a relaxed yet elevated fit.',
-                            image: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=800',
+                            image_url: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=800',
                             gallery: [
                                 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=800',
                                 'https://images.unsplash.com/photo-1539008835657-9e8e9680c956?q=80&w=800'
@@ -360,7 +374,8 @@
                 openQuickView(product) {
                     this.activeProduct = product;
                     this.activeImageIndex = 0;
-                    this.activeImage = product.gallery && product.gallery.length > 0 ? product.gallery[0] : product.image;
+                    this.activeImage = product.gallery && product.gallery.length > 0 ? product.gallery[0] : product.image_url;
+                    this.selected_size = 'M'; // Default reset size
                     this.isModalOpen = true;
                     document.body.style.overflow = 'hidden';
                 },
@@ -380,13 +395,22 @@
                         this.activeImage = this.activeProduct.gallery[this.activeImageIndex];
                     }
                 },
-                addToCart(product) {
-                    this.cartCount++;
-                    alert(`Added "${product.name}" to cart.`);
-                },
+                // Updated Logic for Backend API JSON Generation
                 addToCartFromModal() {
+                    const payload = {
+                        product_id: this.activeProduct.id,
+                        name: this.activeProduct.name,
+                        price_aed: this.activeProduct.price_aed,
+                        selected_size: this.selected_size,
+                        image_url: this.activeProduct.image_url,
+                        quantity: 1
+                    };
+                    
+                    // Makikita mo ito sa Console ng Browser
+                    console.log("JSON Payload ready for order_items API:", JSON.stringify(payload, null, 2));
+                    alert("JSON Payload Generated! Check Browser Console.\n\n" + JSON.stringify(payload, null, 2));
+                    
                     this.cartCount++;
-                    alert(`Added "${this.activeProduct.name}" (Size: ${this.selectedSize}) to cart.`);
                     this.closeQuickView();
                 },
                 scrollToTop() {
@@ -403,58 +427,6 @@
                 }
             }
         }).mount('#app')
-        
     </script>
-
-    <script>
-    const { createApp } = Vue;
-
-    createApp({
-        data() {
-            return {
-                isModalOpen: false,
-                activeProduct: {
-                    product_id: null,
-                    name: '',
-                    price_aed: 0,
-                    image_url: ''
-                },
-                selected_size: 'M',
-                products: [] // Populate this array from your backend database
-            }
-        },
-        methods: {
-            openQuickView(product) {
-                this.activeProduct = {
-                    product_id: product.id,
-                    name: product.name,
-                    price_aed: product.price_aed,
-                    image_url: product.image_url
-                };
-                this.selected_size = 'M';
-                this.isModalOpen = true;
-                document.body.style.overflow = 'hidden';
-            },
-            closeQuickView() {
-                this.isModalOpen = false;
-                document.body.style.overflow = 'auto';
-            },
-            addToCart() {
-                const payload = {
-                    product_id: this.activeProduct.product_id,
-                    name: this.activeProduct.name,
-                    price_aed: this.activeProduct.price_aed,
-                    selected_size: this.selected_size,
-                    image_url: this.activeProduct.image_url,
-                    quantity: 1
-                };
-                
-                console.log("JSON Payload for order_items API:", JSON.stringify(payload, null, 2));
-                
-                this.closeQuickView();
-            }
-        }
-    }).mount('#app')
-</script>
 </body>
 </html>
