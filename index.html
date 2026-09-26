@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matilda - Luxury E-commerce Hero</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        serif: ['Playfair Display', 'serif'],
+                        sans: ['Montserrat', 'sans-serif']
+                    },
+                    colors: {
+                        gold: '#C5A059',
+                        navy: '#0f172a'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-sans antialiased text-white bg-navy overflow-x-hidden">
+    
+    <div id="app" class="relative w-full h-screen overflow-hidden bg-navy">
+        
+        <!-- Background Image (z-0) -->
+        <img src="cover.jfif" class="absolute inset-0 w-full h-full object-cover z-0" alt="Luxury Fashion Edit" onerror="this.src='https://images.unsplash.com/photo-1550614000-4b95d466f914?q=80&w=2000';">
+        
+        <!-- Subtle dark overlay to ensure text contrast (z-10) -->
+        <div class="absolute inset-0 bg-black/40 z-10 pointer-events-none"></div>
+
+        <!-- Top Left Corner (Desktop Only) -->
+        <div class="absolute top-10 left-10 z-20 hidden md:block">
+            <span class="text-[0.65rem] tracking-[0.3em] font-medium uppercase text-gray-200 drop-shadow-md">
+                Style / Trends / Lifestyle
+            </span>
+        </div>
+        
+        <!-- Top Right Corner (Desktop Only) -->
+        <div class="absolute top-10 right-10 z-20 hidden md:block">
+            <span class="text-[0.65rem] tracking-[0.3em] font-medium uppercase text-gray-200 drop-shadow-md">
+                Vol. 12 Issue 8
+            </span>
+        </div>
+
+        <!-- Bottom Left Corner (Desktop Only) -->
+        <div class="absolute bottom-16 left-10 z-20 hidden md:flex flex-col gap-2">
+            <span class="text-[0.65rem] tracking-[0.3em] uppercase text-gray-300 font-medium drop-shadow-md">
+                New Season
+            </span>
+            <span class="font-sans text-2xl uppercase tracking-widest font-semibold leading-snug drop-shadow-lg text-white">
+                Elevate<br>Your Style
+            </span>
+        </div>
+
+        <div class="relative z-20 w-full h-full flex flex-col justify-evenly items-center md:block pt-10 md:pt-0">
+
+            <!-- Center Typography: MATILDA -->
+            <div class="flex flex-col items-center w-full px-6 md:absolute md:top-[42%] md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2">
+                <h1 class="font-serif text-5xl md:text-8xl lg:text-9xl font-bold tracking-tight text-white drop-shadow-2xl">
+                    MATILDA
+                </h1>
+                
+                <div class="mt-4 md:mt-6 flex flex-col items-center text-center">
+                    <span class="font-sans text-lg md:text-2xl uppercase tracking-[0.4em] font-medium text-white drop-shadow-lg">
+                        Fashion
+                    </span>
+                    <span class="font-sans text-[0.6rem] md:text-sm uppercase tracking-widest md:tracking-[0.4em] font-medium mt-3 text-gray-200 drop-shadow-md">
+                        Online Clothing Store
+                    </span>
+                </div>
+            </div>
+
+            <!-- Mobile Exclusive Elements -->
+            <div class="flex flex-col items-center md:hidden w-full px-6 pb-12">
+                
+                <!-- Custom Luxury CTA Button (Mobile) - Linked to Collection -->
+                <div class="relative group flex items-center justify-center cursor-pointer mr-4" onclick="window.location.href='collection.html'">
+                    <!-- Golden Ring Accent -->
+                    <div class="absolute right-[-12px] w-14 h-14 rounded-full border border-gold z-0 transition-transform duration-300 group-hover:scale-110 pointer-events-none"></div>
+                    
+                    <!-- Solid Dark Navy Button Base -->
+                    <button class="relative z-20 bg-[#0f172a] text-white px-6 py-3 rounded-full flex items-center gap-2 text-[0.65rem] uppercase tracking-[0.2em] font-semibold shadow-2xl transition-all duration-300">
+                        Shop Now 
+                        <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Desktop Bottom Right Corner (Tags & Desktop CTA) -->
+        <div class="hidden md:flex absolute bottom-16 right-10 lg:right-16 z-30 flex-col items-end w-max">
+            
+            <div class="flex flex-col items-end gap-2 mb-6 text-right">
+                <span class="font-sans text-xl uppercase tracking-widest font-semibold text-white drop-shadow-lg">
+                    Timeless Pieces
+                </span>
+                <span class="text-[0.65rem] tracking-[0.2em] text-gray-300 uppercase font-medium drop-shadow-md">
+                    Casual &bull; Chic &bull; Classy &bull; Trendy
+                </span>
+            </div>
+
+            <!-- Custom Luxury CTA Button (Desktop) - Linked to Collection -->
+            <div class="relative group flex items-center justify-center cursor-pointer mr-6" onclick="window.location.href='collection.html'">
+                <!-- Golden Ring Accent -->
+                <div class="absolute right-[-18px] w-16 h-16 rounded-full border border-gold z-0 transition-transform duration-300 group-hover:scale-110 pointer-events-none"></div>
+                
+                <!-- Solid Dark Navy Button Base -->
+                <button class="relative z-20 bg-[#0f172a] text-white px-8 py-4 rounded-full flex items-center gap-3 text-[0.75rem] uppercase tracking-[0.2em] font-semibold shadow-2xl transition-all duration-300">
+                    Shop Now 
+                    <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                </button>
+            </div>
+        </div>
+        
+    </div>
+
+    <script>
+        const { createApp } = Vue;
+        
+        createApp({
+            data() {
+                return {
+                    // Ready for future integration state (Cart, User Auth, etc.)
+                    cartCount: 0
+                }
+            }
+        }).mount('#app')
+    </script>
+</body>
+</html>

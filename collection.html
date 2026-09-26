@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matilda - The Collection</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        serif: ['Playfair Display', 'serif'],
+                        sans: ['Montserrat', 'sans-serif']
+                    },
+                    colors: {
+                        gold: '#C5A059',
+                        navy: '#0f172a',
+                        cream: '#FDFBF7'
+                    },
+                    animation: {
+                        'bounce-slow': 'bounce 2.5s infinite',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* ==========================================
+             MAGAZINE-STYLE INVISIBLE SCROLL CSS
+        =========================================== */
+        html, body, *, ::-webkit-scrollbar {
+            -ms-overflow-style: none !important;  /* IE and Edge */
+            scrollbar-width: none !important;  /* Firefox */
+        }
+        html::-webkit-scrollbar, body::-webkit-scrollbar, *::-webkit-scrollbar {
+            display: none !important;  /* Chrome, Safari and Opera */
+        }
+    </style>
+</head>
+<body class="font-sans antialiased text-navy bg-cream overflow-x-hidden">
+    
+    <div id="app" class="w-full relative">
+        
+        <!-- ==========================================
+             SECTION 1: COVER HERO (LOCKED)
+        =========================================== -->
+        <section id="collection-cover" class="relative w-full overflow-hidden">
+            <div class="relative w-full h-screen bg-fixed bg-center bg-cover bg-no-repeat flex flex-col justify-center items-center overflow-hidden" style="background-image: url('collection.jfif');">
+                
+                <!-- Protected Top Header -->
+                <div class="absolute top-0 left-0 w-full px-6 md:px-10 py-6 md:py-8 flex justify-between items-center z-30 text-white bg-gradient-to-b from-black/60 to-transparent pointer-events-auto">
+                    <a href="index.html" class="text-[0.65rem] tracking-[0.3em] font-medium uppercase hover:text-gold transition-colors flex items-center gap-2 drop-shadow-md">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                        Back to Home
+                    </a>
+                    <span class="hidden md:block text-[0.65rem] tracking-[0.3em] font-medium uppercase drop-shadow-md">
+                        Issue 03 | September 2026
+                    </span>
+                </div>
+
+                <!-- Sleek Glassmorphism Center Ribbon -->
+                <div class="relative z-20 w-full h-auto backdrop-blur-md bg-white/20 border-y border-white/40 py-10 flex flex-col items-center text-center shadow-[0_8px_32px_0_rgba(31,38,135,0.15)]">
+                    <span class="font-sans text-[0.65rem] md:text-sm uppercase tracking-[0.3em] md:tracking-[0.5em] font-semibold mb-4 text-[#0f172a] drop-shadow-sm px-4 w-full">
+                        The Art of Modest Luxury
+                    </span>
+                    <h1 class="font-serif text-5xl sm:text-6xl md:text-8xl lg:text-[9rem] font-bold tracking-tight text-[#0f172a] drop-shadow-md mb-8 w-full px-4">
+                        COLLECTION
+                    </h1>
+                    <a href="#category-nav" class="flex flex-col items-center gap-3 cursor-pointer text-[#0f172a] hover:text-gold transition-colors duration-300 z-30 drop-shadow-sm">
+                        <span class="text-[0.65rem] tracking-[0.3em] uppercase font-bold">Discover</span>
+                        <svg class="w-5 h-5 animate-bounce-slow" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             SECTION 2: CATEGORY NAVIGATION (WITH LOGO)
+        =========================================== -->
+        <nav id="category-nav" class="sticky top-0 z-50 w-full bg-[#FDFBF7] py-5 border-b border-gray-200/60 shadow-sm transition-all duration-300">
+            <div class="relative flex justify-between items-center w-full px-6 md:px-12 max-w-[1800px] mx-auto">
+                
+                <!-- Left: Brand Logo -->
+                <a href="index.html" class="font-serif text-xl md:text-2xl font-bold tracking-[0.25em] uppercase text-navy hover:text-gold transition-colors">
+                    MATILDA
+                </a>
+
+                <!-- Desktop Centered Category Links -->
+                <div class="hidden md:flex justify-center gap-8 absolute left-1/2 -translate-x-1/2">
+                    <a href="#" class="font-sans text-xs sm:text-sm tracking-widest font-semibold text-navy hover:text-gold border-b-2 border-navy transition-colors pb-1">ALL</a>
+                    <a href="#" class="font-sans text-xs sm:text-sm tracking-widest font-semibold text-gray-500 hover:text-navy border-b-2 border-transparent hover:border-navy transition-colors pb-1">LADIES</a>
+                    <a href="#" class="font-sans text-xs sm:text-sm tracking-widest font-semibold text-gray-500 hover:text-navy border-b-2 border-transparent hover:border-navy transition-colors pb-1">MENS</a>
+                    <a href="#" class="font-sans text-xs sm:text-sm tracking-widest font-semibold text-gray-500 hover:text-navy border-b-2 border-transparent hover:border-navy transition-colors pb-1">ACCESSORIES</a>
+                    <a href="#" class="font-sans text-xs sm:text-sm tracking-widest font-semibold text-gray-500 hover:text-navy border-b-2 border-transparent hover:border-navy transition-colors pb-1">FRAGRANCE</a>
+                </div>
+
+                <!-- Mobile Hamburger Button -->
+                <button @click="isMenuOpen = !isMenuOpen" class="md:hidden p-2 text-navy hover:text-gold focus:outline-none transition-colors" aria-label="Toggle Menu">
+                    <svg v-if="!isMenuOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 8h16M4 16h16"></path></svg>
+                    <svg v-else class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+
+            <!-- Mobile Dropdown Menu -->
+            <div v-show="isMenuOpen" class="md:hidden absolute top-full left-0 w-full bg-[#FDFBF7] border-b border-gray-200 shadow-xl py-6 px-6 transition-all duration-300">
+                <ul class="flex flex-col items-center space-y-4">
+                    <li><a href="#" @click="isMenuOpen = false" class="font-sans text-sm tracking-widest font-semibold text-navy hover:text-gold py-2 block">ALL</a></li>
+                    <li><a href="#" @click="isMenuOpen = false" class="font-sans text-sm tracking-widest font-semibold text-gray-600 hover:text-navy py-2 block">LADIES</a></li>
+                    <li><a href="#" @click="isMenuOpen = false" class="font-sans text-sm tracking-widest font-semibold text-gray-600 hover:text-navy py-2 block">MENS</a></li>
+                    <li><a href="#" @click="isMenuOpen = false" class="font-sans text-sm tracking-widest font-semibold text-gray-600 hover:text-navy py-2 block">ACCESSORIES</a></li>
+                    <li><a href="#" @click="isMenuOpen = false" class="font-sans text-sm tracking-widest font-semibold text-gray-600 hover:text-navy py-2 block">FRAGRANCE</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- ==========================================
+             SECTION 3: PRODUCT GRID (2-COL MOBILE, 4-COL DESKTOP)
+        =========================================== -->
+        <section id="product-grid" class="w-full bg-[#FDFBF7] px-3 md:px-12 pt-12 pb-32">
+            <div class="max-w-[1800px] mx-auto">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 gap-y-12 md:gap-y-16">
+                    
+                    <!-- Product Card Routed to product-detail.html -->
+                    <a v-for="product in products" :key="product.id" :href="'product-detail.html?id=' + product.id" class="flex flex-col group cursor-pointer">
+                        <div class="relative w-full aspect-[4/5] md:aspect-[3/4] bg-gray-100 overflow-hidden">
+                            <img class="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-700 hover:scale-105" :src="product.image" :alt="product.name" />
+                            <!-- Quick View Overlay (Desktop Only) -->
+                            <div @click.prevent="openQuickView(product)" class="hidden md:flex absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity items-center justify-center">
+                                <span class="bg-[#FDFBF7]/90 text-navy text-[0.6rem] uppercase tracking-[0.2em] font-bold px-4 py-2 shadow-sm">Quick View</span>
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-start mt-3 md:mt-4 px-1">
+                            <div class="flex flex-col text-left pr-1">
+                                <span class="font-sans font-bold text-[10px] md:text-xs uppercase tracking-[0.15em] md:tracking-[0.2em] text-navy mb-1">{{ product.brand }}</span>
+                                <span class="font-sans font-light text-xs md:text-sm text-gray-700 mb-1.5 line-clamp-2 text-wrap leading-snug">{{ product.name }}</span>
+                                <span class="font-sans font-medium text-xs md:text-sm text-navy">{{ product.price }}</span>
+                            </div>
+                            <button @click.prevent="addToCart(product)" class="p-1.5 md:p-2 text-navy hover:text-blue-900 transition-colors flex-shrink-0" aria-label="Add to cart">
+                                <svg class="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+                            </button>
+                        </div>
+                    </a>
+
+                </div>
+
+                <!-- Discover More Downward Arrow -->
+                <div class="w-full flex flex-col items-center justify-center pb-12 pt-24 text-slate-900 cursor-pointer" @click="scrollDown">
+                    <span class="uppercase tracking-widest text-xs font-bold mb-4">Discover More</span>
+                    <svg class="animate-bounce w-6 h-6 text-slate-900" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             VERTICAL FLOATING NAVIGATION PILL (DESKTOP ONLY)
+        =========================================== -->
+        <div v-show="showFloatingNav" class="hidden md:flex fixed right-0.5 md:right-1 top-1/2 -translate-y-1/2 z-50 flex-col bg-white/85 backdrop-blur-md text-slate-900 rounded-full shadow-lg overflow-hidden border border-gray-200/60 transition-all duration-500">
+            <button @click="scrollToTop" class="p-2 hover:bg-gray-100 transition-colors border-b border-gray-200/60 flex items-center justify-center group" aria-label="Scroll to Top">
+                <svg class="w-3.5 h-3.5 text-slate-900 group-hover:-translate-y-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 15l7-7 7 7"></path>
+                </svg>
+            </button>
+            <button @click="scrollDown" class="p-2 hover:bg-gray-100 transition-colors flex items-center justify-center group" aria-label="Scroll Down">
+                <svg class="w-3.5 h-3.5 text-slate-900 group-hover:translate-y-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path>
+                </svg>
+            </button>
+        </div>
+
+        <!-- ==========================================
+             QUICK VIEW MODAL COMPONENT (DESKTOP ONLY)
+        =========================================== -->
+        <div v-if="isModalOpen" class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4 overflow-y-auto">
+            <div @click.stop class="relative w-full max-w-4xl overflow-y-auto max-h-[90vh] md:max-h-[85vh] flex flex-col md:flex-row rounded-none bg-[#FDFBF7] shadow-2xl mx-4 animate-in fade-in duration-300">
+                
+                <!-- Bulletproof Close 'X' Button -->
+                <button @click="closeQuickView" class="absolute top-4 right-4 z-50 p-2 bg-white rounded-full shadow-md text-slate-900 cursor-pointer hover:bg-slate-100 transition-colors" aria-label="Close Modal">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+
+                <!-- Left Column: Image Carousel -->
+                <div class="w-full md:w-1/2 h-[45vh] md:h-full relative overflow-hidden flex-shrink-0 bg-gray-100 flex items-center justify-center">
+                    <img :src="activeImage" :alt="activeProduct.name" class="absolute inset-0 w-full h-full object-cover object-top">
+                    
+                    <template v-if="activeProduct.gallery && activeProduct.gallery.length > 1">
+                        <button @click="prevImage" class="absolute left-3 top-1/2 -translate-y-1/2 z-20 p-2 bg-white/70 hover:bg-white text-slate-900 rounded-full shadow-md transition-colors" aria-label="Previous Image">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                        </button>
+                        <button @click="nextImage" class="absolute right-3 top-1/2 -translate-y-1/2 z-20 p-2 bg-white/70 hover:bg-white text-slate-900 rounded-full shadow-md transition-colors" aria-label="Next Image">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                        </button>
+                    </template>
+                </div>
+
+                <!-- Right Column: Product Details & Docked CTA -->
+                <div class="w-full md:w-1/2 flex flex-col h-full text-left">
+                    <div class="flex-grow overflow-y-auto p-6 md:p-12 space-y-4">
+                        <span class="font-sans font-bold text-xs uppercase tracking-[0.3em] text-gold">{{ activeProduct.brand }}</span>
+                        <h2 class="font-serif text-2xl md:text-3xl font-bold text-navy leading-tight">{{ activeProduct.name }}</h2>
+                        <span class="font-sans font-semibold text-xl text-navy">{{ activeProduct.price }}</span>
+                        
+                        <div class="w-full h-[1px] bg-gray-200 my-2"></div>
+                        
+                        <p class="font-sans text-xs md:text-sm text-gray-600 leading-relaxed font-medium">
+                            {{ activeProduct.description }}
+                        </p>
+
+                        <!-- Size Selector -->
+                        <div class="flex flex-col space-y-2 pt-2">
+                            <label class="font-sans text-[0.65rem] uppercase tracking-widest font-semibold text-gray-500">Select Size</label>
+                            <div class="flex gap-3">
+                                <button v-for="size in ['S', 'M', 'L', 'XL']" :key="size" @click="selectedSize = size" :class="['w-10 h-10 border text-xs font-semibold uppercase transition-colors', selectedSize === size ? 'bg-navy text-white border-navy' : 'border-gray-300 text-navy hover:border-navy']">
+                                    {{ size }}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Docked Call To Action -->
+                    <div class="p-6 border-t border-gray-100 flex-shrink-0 bg-[#FDFBF7]">
+                        <button @click="addToCartFromModal" class="w-full bg-slate-900 text-white py-4 tracking-[0.2em] uppercase text-xs font-bold hover:bg-gold transition-colors duration-300 shadow-lg">
+                            ADD TO CART
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const { createApp, ref, onMounted, onUnmounted } = Vue;
+        createApp({
+            data() {
+                return {
+                    isMenuOpen: false,
+                    isModalOpen: false,
+                    showFloatingNav: false,
+                    activeProduct: {},
+                    activeImage: '',
+                    activeImageIndex: 0,
+                    selectedSize: 'M',
+                    cartCount: 0,
+                    products: [
+                        {
+                            id: 1,
+                            brand: 'Matilda',
+                            name: 'Pleated Navy Elegance Dress',
+                            price: 'AED 300',
+                            description: 'A masterpiece of modern modest tailoring. Features exquisite accordion pleats and a refined silhouette crafted from premium breathable fabric.',
+                            image: 'https://images.unsplash.com/photo-1539008835657-9e8e9680c956?q=80&w=800',
+                            gallery: [
+                                'https://images.unsplash.com/photo-1539008835657-9e8e9680c956?q=80&w=800',
+                                'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=800',
+                                'https://images.unsplash.com/photo-1550614000-4b95d466f914?q=80&w=800'
+                            ]
+                        },
+                        {
+                            id: 2,
+                            brand: 'Matilda',
+                            name: 'Beige Modest Gown',
+                            price: 'AED 360',
+                            description: 'Designed for high-end occasions. This neutral tone gown combines fluid drapery with minimalist luxury finishes.',
+                            image: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=800',
+                            gallery: [
+                                'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=800',
+                                'https://images.unsplash.com/photo-1539008835657-9e8e9680c956?q=80&w=800'
+                            ]
+                        },
+                        {
+                            id: 3,
+                            brand: 'Matilda',
+                            name: 'Dark Navy High-Neck Top',
+                            price: 'AED 400',
+                            description: 'An architectural piece featuring a structured high collar and subtle fluid lines for everyday luxury wear.',
+                            image: 'https://images.unsplash.com/photo-1550614000-4b95d466f914?q=80&w=800',
+                            gallery: [
+                                'https://images.unsplash.com/photo-1550614000-4b95d466f914?q=80&w=800'
+                            ]
+                        },
+                        {
+                            id: 4,
+                            brand: 'Matilda',
+                            name: 'Taupe Structured Handbag',
+                            price: 'AED 450',
+                            description: 'Handcrafted leather accessory designed to complement contemporary outfits with effortless sophistication.',
+                            image: 'https://images.unsplash.com/photo-1584916201218-f4242ceb4809?q=80&w=800',
+                            gallery: [
+                                'https://images.unsplash.com/photo-1584916201218-f4242ceb4809?q=80&w=800',
+                                'https://images.unsplash.com/photo-1539008835657-9e8e9680c956?q=80&w=800'
+                            ]
+                        },
+                        {
+                            id: 5,
+                            brand: 'Matilda',
+                            name: 'Pearl Drop Earrings',
+                            price: 'AED 120',
+                            description: 'Luminous baroque pearls suspended on custom minimalist gold settings.',
+                            image: 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?q=80&w=800',
+                            gallery: [
+                                'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?q=80&w=800'
+                            ]
+                        },
+                        {
+                            id: 6,
+                            brand: 'Matilda',
+                            name: 'Signature Fragrance',
+                            price: 'AED 280',
+                            description: 'An evocative blend of amber, white florals, and warm musk.',
+                            image: 'https://images.unsplash.com/photo-1594035910387-fea47794261f?q=80&w=800',
+                            gallery: [
+                                'https://images.unsplash.com/photo-1594035910387-fea47794261f?q=80&w=800',
+                                'https://images.unsplash.com/photo-1539008835657-9e8e9680c956?q=80&w=800'
+                            ]
+                        },
+                        {
+                            id: 7,
+                            brand: 'Matilda',
+                            name: 'Classic Silk Abaya',
+                            price: 'AED 550',
+                            description: 'Pure flowing silk designed with immaculate attention to detail and drape.',
+                            image: 'https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=800',
+                            gallery: [
+                                'https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=800'
+                            ]
+                        },
+                        {
+                            id: 8,
+                            brand: 'Matilda',
+                            name: 'Ivory Modest Tunic',
+                            price: 'AED 290',
+                            description: 'Crisp ivory tunic featuring clean lines and a relaxed yet elevated fit.',
+                            image: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=800',
+                            gallery: [
+                                'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=800',
+                                'https://images.unsplash.com/photo-1539008835657-9e8e9680c956?q=80&w=800'
+                            ]
+                        }
+                    ]
+                }
+            },
+            mounted() {
+                window.addEventListener('scroll', this.handleScroll);
+            },
+            unmounted() {
+                window.removeEventListener('scroll', this.handleScroll);
+            },
+            methods: {
+                handleScroll() {
+                    this.showFloatingNav = window.scrollY > 500;
+                },
+                openQuickView(product) {
+                    if (window.innerWidth < 768) return; // Prevent quick view on mobile
+                    this.activeProduct = product;
+                    this.activeImageIndex = 0;
+                    this.activeImage = product.gallery && product.gallery.length > 0 ? product.gallery[0] : product.image;
+                    this.isModalOpen = true;
+                    document.body.style.overflow = 'hidden';
+                },
+                closeQuickView() {
+                    this.isModalOpen = false;
+                    document.body.style.overflow = 'auto';
+                },
+                nextImage() {
+                    if (this.activeProduct.gallery && this.activeProduct.gallery.length > 1) {
+                        this.activeImageIndex = (this.activeImageIndex + 1) % this.activeProduct.gallery.length;
+                        this.activeImage = this.activeProduct.gallery[this.activeImageIndex];
+                    }
+                },
+                prevImage() {
+                    if (this.activeProduct.gallery && this.activeProduct.gallery.length > 1) {
+                        this.activeImageIndex = (this.activeImageIndex - 1 + this.activeProduct.gallery.length) % this.activeProduct.gallery.length;
+                        this.activeImage = this.activeProduct.gallery[this.activeImageIndex];
+                    }
+                },
+                addToCart(product) {
+                    this.cartCount++;
+                    alert(`Added "${product.name}" to cart.`);
+                },
+                addToCartFromModal() {
+                    this.cartCount++;
+                    alert(`Added "${this.activeProduct.name}" (Size: ${this.selectedSize}) to cart.`);
+                    this.closeQuickView();
+                },
+                scrollToTop() {
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                },
+                scrollDown() {
+                    window.scrollBy({
+                        top: window.innerHeight * 0.8,
+                        behavior: 'smooth'
+                    });
+                }
+            }
+        }).mount('#app')
+    </script>
+</body>
+</html>
