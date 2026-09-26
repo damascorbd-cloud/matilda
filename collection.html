@@ -239,7 +239,7 @@
     </div>
 
     <!-- ==========================================
-         VUE.JS APP INSTANCE (WITH LOCALTUNNEL API CONNECTION)
+         VUE.JS APP INSTANCE (WITH NGROK LIVE CONNECTION)
     =========================================== -->
     <script>
         const { createApp } = Vue;
@@ -419,11 +419,10 @@
                         quantity: 1
                     };
 
-                    fetch('https://olive-webs-find.loca.lt/api/cart/add', {
+                    fetch('https://giver-ought-unfilled.ngrok-free.dev/api/cart/add', {
                         method: 'POST',
                         headers: {
-                            'Content-Type': 'application/json',
-                            'Bypass-Tunnel-Reminder': 'true'
+                            'Content-Type': 'application/json'
                         },
                         body: JSON.stringify(cartPayload)
                     })
