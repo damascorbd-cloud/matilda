@@ -239,7 +239,7 @@
     </div>
 
     <!-- ==========================================
-         VUE.JS APP INSTANCE (WITH NODE.JS API CONNECTION)
+         VUE.JS APP INSTANCE (WITH LIVE TUNNEL API CONNECTION)
     =========================================== -->
     <script>
         const { createApp } = Vue;
@@ -258,7 +258,7 @@
                     },
                     activeImage: '',
                     activeImageIndex: 0,
-                    selected_size: null, // Required to be null for validation
+                    selected_size: null, 
                     cartCount: 0,
                     
                     products: [
@@ -419,8 +419,8 @@
                         quantity: 1
                     };
 
-                    // Connects to the local Node.js backend
-                    fetch('http://localhost:3000/api/cart/add', {
+                    // Connects to the live Node.js backend tunnel
+                    fetch('https://slimy-years-doubt.loca.lt/api/cart/add', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
