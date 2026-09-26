@@ -403,6 +403,58 @@
                 }
             }
         }).mount('#app')
+        
     </script>
+
+    <script>
+    const { createApp } = Vue;
+
+    createApp({
+        data() {
+            return {
+                isModalOpen: false,
+                activeProduct: {
+                    product_id: null,
+                    name: '',
+                    price_aed: 0,
+                    image_url: ''
+                },
+                selected_size: 'M',
+                products: [] // Populate this array from your backend database
+            }
+        },
+        methods: {
+            openQuickView(product) {
+                this.activeProduct = {
+                    product_id: product.id,
+                    name: product.name,
+                    price_aed: product.price_aed,
+                    image_url: product.image_url
+                };
+                this.selected_size = 'M';
+                this.isModalOpen = true;
+                document.body.style.overflow = 'hidden';
+            },
+            closeQuickView() {
+                this.isModalOpen = false;
+                document.body.style.overflow = 'auto';
+            },
+            addToCart() {
+                const payload = {
+                    product_id: this.activeProduct.product_id,
+                    name: this.activeProduct.name,
+                    price_aed: this.activeProduct.price_aed,
+                    selected_size: this.selected_size,
+                    image_url: this.activeProduct.image_url,
+                    quantity: 1
+                };
+                
+                console.log("JSON Payload for order_items API:", JSON.stringify(payload, null, 2));
+                
+                this.closeQuickView();
+            }
+        }
+    }).mount('#app')
+</script>
 </body>
 </html>
