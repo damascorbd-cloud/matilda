@@ -239,7 +239,7 @@
     </div>
 
     <!-- ==========================================
-         VUE.JS APP INSTANCE (WITH LIVE TUNNEL API CONNECTION)
+         VUE.JS APP INSTANCE (WITH LOCALTUNNEL API CONNECTION)
     =========================================== -->
     <script>
         const { createApp } = Vue;
@@ -381,7 +381,7 @@
                     };
                     this.activeImageIndex = 0;
                     this.activeImage = product.gallery && product.gallery.length > 0 ? product.gallery[0] : product.image_url;
-                    this.selected_size = null; // Force validation on new product
+                    this.selected_size = null; 
                     this.isModalOpen = true;
                     document.body.style.overflow = 'hidden';
                 },
@@ -419,23 +419,23 @@
                         quantity: 1
                     };
 
-                    // Connects to the live Node.js backend tunnel
-                    fetch('https://olive-webs-find.loca.lt', {
+                    fetch('https://olive-webs-find.loca.lt/api/cart/add', {
                         method: 'POST',
                         headers: {
-                            'Content-Type': 'application/json'
+                            'Content-Type': 'application/json',
+                            'Bypass-Tunnel-Reminder': 'true'
                         },
                         body: JSON.stringify(cartPayload)
                     })
                     .then(response => response.json())
                     .then(data => {
                         console.log("Success:", data);
-                        alert(data.message || 'Successfully added to cart!'); 
+                        alert(data.message || "Successfully added");
                         this.cartCount++;
                         this.closeQuickView();
                     })
                     .catch((error) => {
-                        console.error('Error:', error);
+                        console.error("Error:", error);
                         alert('Failed to connect to the server.');
                     });
                 },
