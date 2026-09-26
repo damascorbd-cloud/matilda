@@ -175,7 +175,7 @@
         </div>
 
         <!-- ==========================================
-             QUICK VIEW MODAL COMPONENT (LOCKED & FINAL)
+             QUICK VIEW MODAL COMPONENT (REFINED PADDING)
         =========================================== -->
         <div v-if="isModalOpen" class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4 overflow-y-auto">
             <div @click.stop class="relative w-full max-w-4xl flex flex-col md:flex-row max-h-[90vh] overflow-hidden rounded-none bg-[#FDFBF7] shadow-2xl mx-4 animate-in fade-in duration-300">
@@ -199,9 +199,9 @@
                     </template>
                 </div>
 
-                <!-- Right Column: Product Details & Docked CTA -->
+                <!-- Right Column: Product Details (with refined pt-6 md:pt-8 spacing) & Docked CTA -->
                 <div class="w-full md:w-1/2 flex flex-col h-full text-left overflow-y-auto">
-                    <div class="flex-grow p-6 md:p-12 space-y-4">
+                    <div class="flex-grow pt-6 md:pt-8 p-6 md:p-12 space-y-4">
                         <span class="font-sans font-bold text-xs uppercase tracking-[0.3em] text-gold">{{ activeProduct.brand }}</span>
                         <h2 class="font-serif text-2xl md:text-3xl font-bold text-navy leading-tight">{{ activeProduct.name }}</h2>
                         <span class="font-sans font-semibold text-xl text-navy">{{ activeProduct.price }}</span>
