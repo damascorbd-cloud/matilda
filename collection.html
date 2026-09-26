@@ -132,7 +132,6 @@
                     <div v-for="product in products" :key="product.id" @click="openQuickView(product)" class="flex flex-col group cursor-pointer">
                         <div class="relative w-full aspect-[4/5] md:aspect-[3/4] bg-gray-100 overflow-hidden">
                             <img class="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105" :src="product.image" :alt="product.name" />
-                            <!-- Quick View Overlay (Always Visible hint on desktop, accessible via tap on mobile) -->
                             <div class="hidden md:flex absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity items-center justify-center">
                                 <span class="bg-[#FDFBF7]/90 text-navy text-[0.6rem] uppercase tracking-[0.2em] font-bold px-4 py-2 shadow-sm">Quick View</span>
                             </div>
@@ -176,7 +175,7 @@
         </div>
 
         <!-- ==========================================
-             QUICK VIEW MODAL COMPONENT (MOBILE & DESKTOP RESTORED)
+             QUICK VIEW MODAL COMPONENT (LOCKED & FINAL)
         =========================================== -->
         <div v-if="isModalOpen" class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4 overflow-y-auto">
             <div @click.stop class="relative w-full max-w-4xl flex flex-col md:flex-row max-h-[90vh] overflow-hidden rounded-none bg-[#FDFBF7] shadow-2xl mx-4 animate-in fade-in duration-300">
@@ -186,7 +185,7 @@
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"></path></svg>
                 </button>
 
-                <!-- Left Column: Image & Carousel (Restricted height on mobile) -->
+                <!-- Left Column: Image & Carousel -->
                 <div class="w-full md:w-1/2 h-[50vh] md:h-full relative block flex-shrink-0 bg-gray-100 flex items-center justify-center">
                     <img :src="activeImage" :alt="activeProduct.name" class="absolute inset-0 w-full h-full object-cover object-top" />
                     
